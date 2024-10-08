@@ -1,4 +1,3 @@
-// providers/expense_provider.dart
 import 'package:flutter/material.dart';
 import '../models/expense.dart';
 import 'package:sqflite/sqflite.dart';
@@ -13,23 +12,19 @@ class ExpenseProvider with ChangeNotifier {
 
   List<Expense> get expenses => _expenses;
 
+  // Load expenses from the database
   Future<void> _loadExpenses() async {
     final database = await _openDatabase();
     final List<Map<String, dynamic>> expenseMaps = await database.query('expenses');
     
     _expenses = List.generate(expenseMaps.length, (index) {
-      return Expense(
-        id: expenseMaps[index]['id'],
-        title: expenseMaps[index]['title'],
-        amount: expenseMaps[index]['amount'],
-        category: expenseMaps[index]['category'],
-        date: DateTime.parse(expenseMaps[index]['date']),
-      );
+      return Expense.fromMap(expenseMaps[index]); // Use fromMap method to create Expense instances
     });
 
     notifyListeners(); // Notify listeners after loading data
   }
 
+  // Open the SQLite database
   Future<Database> _openDatabase() async {
     return openDatabase(
       join(await getDatabasesPath(), 'expenses_database.db'),
@@ -42,17 +37,33 @@ class ExpenseProvider with ChangeNotifier {
     );
   }
 
-  // Existing methods for adding, updating, and deleting expenses
+  // Add a new expense
   Future<void> addExpense(Expense expense) async {
     final database = await _openDatabase();
-    await database.insert('expenses', {
-      'title': expense.title,
-      'amount': expense.amount,
-      'category': expense.category,
-      'date': expense.date.toIso8601String(),
-    });
+    await database.insert('expenses', expense.toMap()); // Use toMap method for inserting
     await _loadExpenses(); // Reload expenses after adding
   }
 
-  // Similarly, update your updateExpense and deleteExpense methods
+  // Update an existing expense
+  Future<void> updateExpense(Expense expense) async {
+    final database = await _openDatabase();
+    await database.update(
+      'expenses',
+      expense.toMap(), // Use toMap method for updating
+      where: 'id = ?',
+      whereArgs: [expense.id],
+    );
+    await _loadExpenses(); // Reload expenses after updating
+  }
+
+  // Delete an expense
+  Future<void> deleteExpense(int id) async {
+    final database = await _openDatabase();
+    await database.delete(
+      'expenses',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    await _loadExpenses(); // Reload expenses after deleting
+  }
 }
