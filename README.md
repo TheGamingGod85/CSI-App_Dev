@@ -42,7 +42,7 @@ To get started with the FuturFi app, follow these steps:
    flutter build <build type>
    ```
 
-   ## Author
+## Author
 **Aayushya Lakkadwala**  
 0827CS231008  
 CSI App-Dev Track
