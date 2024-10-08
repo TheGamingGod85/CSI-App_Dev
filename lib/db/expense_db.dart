@@ -45,7 +45,7 @@ class ExpenseDB {
       'expenses',
       expense.toMap(),
       where: 'id = ?',
-      whereArgs: [expense.id], // Update the expense with the matching id
+      whereArgs: [expense.id],
     );
   }
 

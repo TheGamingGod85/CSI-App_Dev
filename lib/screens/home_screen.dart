@@ -38,27 +38,27 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!categoryTotals.containsKey(expense.category)) {
         categoryTotals[expense.category] = 0.0;
       }
-      categoryTotals[expense.category] =
-          categoryTotals[expense.category]! + expense.amount;
+      categoryTotals[expense.category] = categoryTotals[expense.category]! + expense.amount;
     });
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense Tracker'),
+        title: const Text('Expense Tracker'),
+        backgroundColor: Colors.deepPurple,
       ),
       body: Column(
         children: [
           // Display total expense
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Total Expense: ₹${totalExpense.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Category color bar
                 Container(
                   height: 20,
@@ -67,18 +67,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: categoryTotals.entries.map((entry) {
                       final category = entry.key;
                       final categoryTotal = entry.value;
-                      final share = totalExpense == 0
-                          ? 0.0
-                          : categoryTotal / totalExpense;
+                      final share = totalExpense == 0 ? 0.0 : categoryTotal / totalExpense;
+
                       return Expanded(
                         flex: (share * 100).toInt(),
                         child: GestureDetector(
                           onTap: () {
-                            // Navigate to the category expenses screen
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    CategoryExpenseScreen(category: category),
+                                builder: (context) => CategoryExpenseScreen(category: category),
                               ),
                             );
                           },
@@ -94,9 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          // Search bar with reduced height
+          // Search bar
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: TextField(
               onChanged: (value) {
                 setState(() {
@@ -105,16 +102,17 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               decoration: InputDecoration(
                 labelText: 'Search by name or price',
+                labelStyle: const TextStyle(color: Colors.white), 
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
+                  borderSide: const BorderSide(color: Colors.white), 
                 ),
-                prefixIcon: Icon(Icons.search),
-                
+                prefixIcon: const Icon(Icons.search, color: Colors.white),
               ),
-              style: TextStyle(fontSize: 14), // Make the text smaller
+              style: const TextStyle(fontSize: 14, color: Colors.white), 
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           // Display list of expenses (sorted and filtered by search query)
           Expanded(
             child: ListView.builder(
@@ -124,20 +122,20 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-          // White bar with the FAB
+          // Transparent bar with the FAB
           Container(
-            color: Colors.white,
-            height: 80, // Height of the white bar
+            color: Colors.transparent,
+            height: 80, 
             child: Center(
               child: FloatingActionButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddExpenseScreen()),
+                    MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
                   );
                 },
                 backgroundColor: Colors.blue, // Blue-colored FAB
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               ),
             ),
           ),

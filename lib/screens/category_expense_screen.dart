@@ -50,7 +50,7 @@ class _CategoryExpenseScreenState extends State<CategoryExpenseScreen> {
               children: [
                 Text(
                   'Total ${widget.category} Expense: ₹${totalCategoryExpense.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -69,9 +69,9 @@ class _CategoryExpenseScreenState extends State<CategoryExpenseScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
               ),
-              style: TextStyle(fontSize: 14), // Make the text smaller
+              style: const TextStyle(fontSize: 14),
             ),
           ),
           // Display list of category expenses (sorted and filtered by search query)

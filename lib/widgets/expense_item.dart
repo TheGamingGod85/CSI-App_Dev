@@ -40,11 +40,11 @@ class ExpenseItem extends StatelessWidget {
               }
             },
             itemBuilder: (context) => [
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'Edit',
                 child: Text('Edit'),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'Delete',
                 child: Text('Delete'),
               ),

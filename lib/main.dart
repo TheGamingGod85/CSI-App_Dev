@@ -1,5 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'package:myapp/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'providers/expense_provider.dart';
 import 'screens/home_screen.dart';
@@ -18,9 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Expense Tracker',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: AppTheme.themeData,
         home: HomeScreen(),
       ),
     );

@@ -1,3 +1,4 @@
+// screens/add_expense_screen.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -56,10 +57,10 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Add Custom Category'),
+          title: const Text('Add Custom Category'),
           content: TextField(
             controller: _customCategoryController,
-            decoration: InputDecoration(hintText: "Enter custom category"),
+            decoration: const InputDecoration(hintText: "Enter custom category"),
           ),
           actions: [
             ElevatedButton(
@@ -67,18 +68,18 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 if (_customCategoryController.text.isNotEmpty) {
                   setState(() {
                     _category = _customCategoryController.text;
-                    _categories.add(_customCategoryController.text); // Add to the dropdown list
+                    _categories.add(_customCategoryController.text);
                   });
                 }
                 Navigator.of(context).pop();
               },
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
           ],
         );
@@ -93,27 +94,32 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         title: Text(widget.expense == null ? 'Add Expense' : 'Edit Expense'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                initialValue: _title,
-                decoration: InputDecoration(labelText: 'Title'),
-                onSaved: (value) {
-                  _title = value!;
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a title';
-                  }
-                  return null;
-                },
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                child: TextFormField(
+                  initialValue: _title,
+                  decoration: const InputDecoration(labelText: 'Title'),
+                  onSaved: (value) {
+                    _title = value!;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a title';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              TextFormField(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                child: TextFormField(
                 initialValue: _amount != 0 ? _amount.toString() : '',
-                decoration: InputDecoration(labelText: 'Amount'),
+                decoration: const InputDecoration(labelText: 'Amount'),
                 keyboardType: TextInputType.number,
                 onSaved: (value) {
                   _amount = double.parse(value!);
@@ -124,18 +130,20 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   }
                   return null;
                 },
+                ),
               ),
-              // Category Dropdown with custom category support
-              DropdownButtonFormField<String>(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                child: DropdownButtonFormField<String>(
                 value: _category,
-                decoration: InputDecoration(labelText: 'Category'),
+                decoration: const InputDecoration(labelText: 'Category'),
                 items: _categories.map((String category) {
                   return DropdownMenuItem<String>(
                     value: category,
                     child: Text(category),
                   );
                 }).toList()
-                  ..add(DropdownMenuItem(
+                  ..add(const DropdownMenuItem(
                     value: 'Add Custom',
                     child: Text('Add Custom'),
                   )),
@@ -148,22 +156,35 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                     });
                   }
                 },
+                ),
               ),
-              // Date Picker
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Date: ${DateFormat.yMMMd().format(_selectedDate)}', // Display selected date
-                    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                child: Container(
+                  padding: const EdgeInsets.all(8.0), // Padding inside the container
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent), // Border color
+                    borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                    color: const Color(0x1A3764).withOpacity(0.5), 
                   ),
-                  IconButton(
-                    icon: Icon(Icons.calendar_today),
-                    onPressed: () => _selectDate(context),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Date: ${DateFormat.yMMMd().format(_selectedDate)}', // Display selected date
+                          style: const TextStyle(fontSize: 16, color: Colors.white), // Adjust text color if needed
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.calendar_today, color: Colors.white), 
+                        onPressed: () => _selectDate(context),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              SizedBox(height: 20),
+
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
