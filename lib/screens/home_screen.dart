@@ -1,10 +1,10 @@
 // screens/home_screen.dart
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/category_expense_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
 import 'add_expense_screen.dart';
 import '../widgets/expense_item.dart';
+import 'category_expense_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -94,9 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          // Search bar
+          // Search bar with reduced height
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0),
             child: TextField(
               onChanged: (value) {
                 setState(() {
@@ -105,9 +105,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               decoration: InputDecoration(
                 labelText: 'Search by name or price',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
                 prefixIcon: Icon(Icons.search),
+                
               ),
+              style: TextStyle(fontSize: 14), // Make the text smaller
             ),
           ),
           SizedBox(height: 10),
@@ -115,26 +119,30 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: ListView.builder(
               itemCount: expenses.length,
-              padding: EdgeInsets.only(bottom: 80), // Adds space for the FAB
               itemBuilder: (context, index) {
                 return ExpenseItem(expense: expenses[index]);
               },
             ),
           ),
+          // White bar with the FAB
+          Container(
+            color: Colors.white,
+            height: 80, // Height of the white bar
+            child: Center(
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddExpenseScreen()),
+                  );
+                },
+                backgroundColor: Colors.blue, // Blue-colored FAB
+                child: Icon(Icons.add),
+              ),
+            ),
+          ),
         ],
       ),
-      // Floating Action Button
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddExpenseScreen()),
-          );
-        },
-        backgroundColor: Colors.blue, // Blue-colored FAB
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
