@@ -14,6 +14,11 @@ class ExpenseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+      leading: Container(
+        width: 6.0, 
+        color: _getCategoryColor(expense.category),
+      ),
       title: Text(expense.title),
       subtitle: Text(DateFormat.yMMMd().format(expense.date)),
       trailing: Row(
@@ -53,5 +58,21 @@ class ExpenseItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Helper function to get a color for each category
+  Color _getCategoryColor(String category) {
+    switch (category) {
+      case 'Food':
+        return Colors.green;
+      case 'Transport':
+        return Colors.blue;
+      case 'Entertainment':
+        return Colors.orange;
+      case 'Others':
+        return Colors.purple;
+      default:
+        return Colors.grey; // For custom categories or uncategorized expenses
+    }
   }
 }
