@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'providers/expense_provider.dart';
-import 'screens/home_screen.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Expense Tracker',
         theme: AppTheme.themeData,
-        home: HomeScreen(),
+        home: SplashScreen(),
       ),
     );
   }
