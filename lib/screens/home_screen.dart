@@ -1,15 +1,33 @@
 // screens/home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/category_expense_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
 import 'add_expense_screen.dart';
 import '../widgets/expense_item.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _searchQuery = ''; // Search query to filter transactions
+
   @override
   Widget build(BuildContext context) {
     final expenseProvider = Provider.of<ExpenseProvider>(context);
-    final expenses = expenseProvider.expenses;
+    var expenses = expenseProvider.expenses;
+
+    // Sort expenses by date in descending order
+    expenses.sort((a, b) => b.date.compareTo(a.date));
+
+    // Apply search filter
+    expenses = expenses.where((expense) {
+      final titleMatches = expense.title.toLowerCase().contains(_searchQuery.toLowerCase());
+      final priceMatches = expense.amount.toString().contains(_searchQuery);
+      return titleMatches || priceMatches;
+    }).toList();
 
     // Calculate the total expenses
     final totalExpense = expenses.fold(0.0, (sum, item) => sum + item.amount);
@@ -20,7 +38,8 @@ class HomeScreen extends StatelessWidget {
       if (!categoryTotals.containsKey(expense.category)) {
         categoryTotals[expense.category] = 0.0;
       }
-      categoryTotals[expense.category] = categoryTotals[expense.category]! + expense.amount;
+      categoryTotals[expense.category] =
+          categoryTotals[expense.category]! + expense.amount;
     });
 
     return Scaffold(
@@ -31,7 +50,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Display total expense
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -48,12 +67,25 @@ class HomeScreen extends StatelessWidget {
                     children: categoryTotals.entries.map((entry) {
                       final category = entry.key;
                       final categoryTotal = entry.value;
-                      final share = categoryTotal / totalExpense;
+                      final share = totalExpense == 0
+                          ? 0.0
+                          : categoryTotal / totalExpense;
                       return Expanded(
                         flex: (share * 100).toInt(),
-                        child: Container(
-                          color: _getCategoryColor(category),
-                          height: 20,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Navigate to the category expenses screen
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CategoryExpenseScreen(category: category),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            color: _getCategoryColor(category),
+                            height: 20,
+                          ),
                         ),
                       );
                     }).toList(),
@@ -62,10 +94,28 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Display list of expenses
+          // Search bar
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value; // Update search query
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Search by name or price',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          // Display list of expenses (sorted and filtered by search query)
           Expanded(
             child: ListView.builder(
               itemCount: expenses.length,
+              padding: EdgeInsets.only(bottom: 80), // Adds space for the FAB
               itemBuilder: (context, index) {
                 return ExpenseItem(expense: expenses[index]);
               },
@@ -73,6 +123,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+      // Floating Action Button
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
