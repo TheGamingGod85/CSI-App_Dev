@@ -161,18 +161,18 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 child: Container(
-                  padding: const EdgeInsets.all(8.0), // Padding inside the container
+                  padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blueAccent), // Border color
-                    borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                    border: Border.all(color: Colors.blueAccent), 
+                    borderRadius: BorderRadius.circular(10.0), 
                     color: const Color(0x1A3764).withOpacity(0.5), 
                   ),
                   child: Row(
                     children: [
                       Expanded(
                         child: Text(
-                          'Date: ${DateFormat.yMMMd().format(_selectedDate)}', // Display selected date
-                          style: const TextStyle(fontSize: 16, color: Colors.white), // Adjust text color if needed
+                          'Date: ${DateFormat.yMMMd().format(_selectedDate)}', 
+                          style: const TextStyle(fontSize: 16, color: Colors.white), 
                         ),
                       ),
                       IconButton(

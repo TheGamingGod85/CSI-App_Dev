@@ -1,3 +1,4 @@
+// providers/expense_provider.dart
 import 'package:flutter/material.dart';
 import '../models/expense.dart';
 import 'package:sqflite/sqflite.dart';
@@ -6,11 +7,12 @@ import 'package:path/path.dart';
 class ExpenseProvider with ChangeNotifier {
   List<Expense> _expenses = [];
 
-  ExpenseProvider() {
-    _loadExpenses(); // Load expenses when the provider is initialized
-  }
-
   List<Expense> get expenses => _expenses;
+
+  // Public method to load expenses
+  Future<void> loadExpenses() async {
+    await _loadExpenses();
+  }
 
   // Load expenses from the database
   Future<void> _loadExpenses() async {
@@ -18,10 +20,10 @@ class ExpenseProvider with ChangeNotifier {
     final List<Map<String, dynamic>> expenseMaps = await database.query('expenses');
     
     _expenses = List.generate(expenseMaps.length, (index) {
-      return Expense.fromMap(expenseMaps[index]); // Use fromMap method to create Expense instances
+      return Expense.fromMap(expenseMaps[index]);
     });
 
-    notifyListeners(); // Notify listeners after loading data
+    notifyListeners();
   }
 
   // Open the SQLite database
@@ -40,8 +42,8 @@ class ExpenseProvider with ChangeNotifier {
   // Add a new expense
   Future<void> addExpense(Expense expense) async {
     final database = await _openDatabase();
-    await database.insert('expenses', expense.toMap()); // Use toMap method for inserting
-    await _loadExpenses(); // Reload expenses after adding
+    await database.insert('expenses', expense.toMap());
+    await _loadExpenses(); 
   }
 
   // Update an existing expense
@@ -49,11 +51,11 @@ class ExpenseProvider with ChangeNotifier {
     final database = await _openDatabase();
     await database.update(
       'expenses',
-      expense.toMap(), // Use toMap method for updating
+      expense.toMap(),
       where: 'id = ?',
       whereArgs: [expense.id],
     );
-    await _loadExpenses(); // Reload expenses after updating
+    await _loadExpenses();
   }
 
   // Delete an expense
@@ -64,6 +66,6 @@ class ExpenseProvider with ChangeNotifier {
       where: 'id = ?',
       whereArgs: [id],
     );
-    await _loadExpenses(); // Reload expenses after deleting
+    await _loadExpenses();
   }
 }

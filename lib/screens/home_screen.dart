@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
                   );
                 },
-                backgroundColor: Colors.blue, // Blue-colored FAB
+                backgroundColor: Colors.blue, 
                 child: const Icon(Icons.add),
               ),
             ),

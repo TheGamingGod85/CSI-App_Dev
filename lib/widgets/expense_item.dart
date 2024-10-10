@@ -14,7 +14,7 @@ class ExpenseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+      contentPadding: const EdgeInsets.symmetric(vertical: 20.0),
       leading: Container(
         width: 6.0, 
         color: _getCategoryColor(expense.category),

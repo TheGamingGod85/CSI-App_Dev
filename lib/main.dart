@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Expense Tracker',
+        title: 'FuturFi',
         theme: AppTheme.themeData,
         home: SplashScreen(),
       ),
