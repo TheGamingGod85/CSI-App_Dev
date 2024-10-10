@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
               SizedBox(height: 20),
               Text(
-                'Expense Tracker',
+                'FuturFi: Track, Save, Thrive.',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
