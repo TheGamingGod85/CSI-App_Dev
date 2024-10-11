@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.example.myapp"
+    namespace = "quad.binary.futurfi"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -34,24 +34,30 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.aayushya.futurfi"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        // Unique Application ID
+        applicationId = "quad.binary.futurfi"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'futurfi'
+            keyPassword 'Aayushya@quadbinary#123' // Replace with your actual key password
+            storeFile file('../../futurfi.keystore') // Path to your keystore
+            storePassword 'Aayushya@quadbinary#123' // Replace with your keystore password
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release // Use the release signing config
         }
     }
 }
+
 
 flutter {
     source = "../.."
