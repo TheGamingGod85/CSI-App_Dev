@@ -118,18 +118,22 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 child: TextFormField(
-                initialValue: _amount != 0 ? _amount.toString() : '',
-                decoration: const InputDecoration(labelText: 'Amount'),
-                keyboardType: TextInputType.number,
-                onSaved: (value) {
-                  _amount = double.parse(value!);
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty || double.tryParse(value) == null) {
-                    return 'Please enter a valid amount';
-                  }
-                  return null;
-                },
+                  initialValue: _amount != 0 ? _amount.toString() : '',
+                  decoration: const InputDecoration(labelText: 'Amount'),
+                  keyboardType: TextInputType.number,
+                  onSaved: (value) {
+                    _amount = double.parse(value!);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty || double.tryParse(value) == null) {
+                      return 'Please enter a valid amount';
+                    }
+                    double parsedValue = double.parse(value);
+                    if (parsedValue <= 0) {
+                      return 'Please enter a positive amount';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Padding(
