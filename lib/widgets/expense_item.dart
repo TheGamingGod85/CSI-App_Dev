@@ -10,7 +10,7 @@ class ExpenseItem extends StatelessWidget {
   final Expense expense;
   final CategoryColorManager _categoryColorManager = CategoryColorManager();
 
-  const ExpenseItem({required this.expense});
+  ExpenseItem({required this.expense});
 
   @override
   Widget build(BuildContext context) {
