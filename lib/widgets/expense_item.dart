@@ -1,13 +1,14 @@
-// widgets/expense_item.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/expense.dart';
 import '../screens/add_expense_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
+import '../screens/home_screen.dart'; // Assuming CategoryColorManager is in home_screen.dart
 
 class ExpenseItem extends StatelessWidget {
   final Expense expense;
+  final CategoryColorManager _categoryColorManager = CategoryColorManager();
 
   const ExpenseItem({required this.expense});
 
@@ -16,8 +17,8 @@ class ExpenseItem extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 20.0),
       leading: Container(
-        width: 6.0, 
-        color: _getCategoryColor(expense.category),
+        width: 6.0,
+        color: _categoryColorManager.getCategoryColor(expense.category),
       ),
       title: Text(expense.title),
       subtitle: Text(DateFormat.yMMMd().format(expense.date)),
@@ -58,21 +59,5 @@ class ExpenseItem extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // Helper function to get a color for each category
-  Color _getCategoryColor(String category) {
-    switch (category) {
-      case 'Food':
-        return Colors.green;
-      case 'Transport':
-        return Colors.blue;
-      case 'Entertainment':
-        return Colors.orange;
-      case 'Others':
-        return Colors.purple;
-      default:
-        return Colors.grey; // For custom categories or uncategorized expenses
-    }
   }
 }
