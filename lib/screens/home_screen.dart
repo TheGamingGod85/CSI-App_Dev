@@ -4,58 +4,7 @@ import '../providers/expense_provider.dart';
 import 'add_expense_screen.dart';
 import '../widgets/expense_item.dart';
 import 'category_expense_screen.dart';
-import 'dart:math';
-
-// Helper class to manage category colors
-class CategoryColorManager {
-  final Map<String, Color> _categoryColors = {};
-
-  Color getCategoryColor(String category) {
-    if (_categoryColors.containsKey(category)) {
-      return _categoryColors[category]!;
-    } else {
-      // Predefined categories
-      switch (category) {
-        case 'Food':
-          return _assignColor(category, Colors.green);
-        case 'Transport':
-          return _assignColor(category, Colors.blue);
-        case 'Entertainment':
-          return _assignColor(category, Colors.orange);
-        case 'Others':
-          return _assignColor(category, Colors.purple);
-        default:
-          // For custom categories, assign a random color
-          return _assignRandomColor(category);
-      }
-    }
-  }
-
-  Color _assignColor(String category, Color color) {
-    _categoryColors[category] = color;
-    return color;
-  }
-
-  Color _assignRandomColor(String category) {
-    Color randomColor = _generateRandomColor();
-    _categoryColors[category] = randomColor;
-    return randomColor;
-  }
-
-  Color _generateRandomColor() {
-    final random = Random();
-    Color randomColor;
-    do {
-      randomColor = Color.fromRGBO(
-        random.nextInt(256), // Random Red
-        random.nextInt(256), // Random Green
-        random.nextInt(256), // Random Blue
-        1.0,                 // Full opacity
-      );
-    } while (_categoryColors.containsValue(randomColor));
-    return randomColor;
-  }
-}
+import '../utils/category_color_manager.dart'; // Assuming CategoryColorManager is in this file
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -63,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _searchQuery = '';
+  String _searchQuery = ''; // Search query to filter transactions
   final CategoryColorManager _categoryColorManager = CategoryColorManager();
 
   @override
@@ -149,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TextField(
               onChanged: (value) {
                 setState(() {
-                  _searchQuery = value;
+                  _searchQuery = value; // Update search query
                 });
               },
               decoration: InputDecoration(
@@ -165,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(height: 10),
-          // Display list of expenses
+          // Display list of expenses (sorted and filtered by search query)
           Expanded(
             child: ListView.builder(
               itemCount: expenses.length,
@@ -177,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // Transparent bar with the FAB
           Container(
             color: Colors.transparent,
-            height: 80,
+            height: 80, 
             child: Center(
               child: FloatingActionButton(
                 onPressed: () {
@@ -186,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
                   );
                 },
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.blue, 
                 child: const Icon(Icons.add),
               ),
             ),
