@@ -5,13 +5,21 @@ class CategoryColorManager {
   static final Map<String, Color> _categoryColors = {};
   static final Random _random = Random();
 
-  // Generates a random color
-  Color _generateRandomColor() {
+  // Generates a random bright futuristic color
+  Color _generateBrightFuturisticColor() {
+    int minValue = 128;  // Ensures the color is not too dark
+    int maxValue = 255;  // Maximum brightness
+
+    // We bias the color generation to produce bright, neon-like colors
+    int red = _random.nextInt(maxValue - minValue) + minValue;
+    int green = _random.nextInt(maxValue - minValue) + minValue;
+    int blue = _random.nextInt(maxValue - minValue) + minValue;
+
     return Color.fromARGB(
       255,
-      _random.nextInt(256),
-      _random.nextInt(256),
-      _random.nextInt(256),
+      red,
+      green,
+      blue,
     );
   }
 
@@ -21,7 +29,7 @@ class CategoryColorManager {
       // Ensure no duplicate colors
       Color newColor;
       do {
-        newColor = _generateRandomColor();
+        newColor = _generateBrightFuturisticColor();
       } while (_categoryColors.containsValue(newColor));
 
       _categoryColors[category] = newColor; // Store the color
