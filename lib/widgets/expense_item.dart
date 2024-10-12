@@ -4,7 +4,7 @@ import '../models/expense.dart';
 import '../screens/add_expense_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
-import '../screens/home_screen.dart'; // Assuming CategoryColorManager is in home_screen.dart
+import '../utils/category_color_manager.dart'; // Assuming CategoryColorManager is in this file
 
 class ExpenseItem extends StatelessWidget {
   final Expense expense;
