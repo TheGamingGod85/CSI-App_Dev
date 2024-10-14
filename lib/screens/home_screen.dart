@@ -4,7 +4,7 @@ import '../providers/expense_provider.dart';
 import 'add_expense_screen.dart';
 import '../widgets/expense_item.dart';
 import 'category_expense_screen.dart';
-import '../utils/category_color_manager.dart'; // Assuming CategoryColorManager is in this file
+import '../utils/category_color_manager.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
